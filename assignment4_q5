@@ -1,0 +1,15 @@
+
+[signal, Fs] = audioread('tones2018.wav');
+L = length(signal);
+% Take the DFT
+Y = fft(signal)/L;
+f = Fs/2*linspace(0,1,L/2+1);
+% Plot the single-sided magnitude spectrum.
+plot(f,2*abs(Y(1:L/2+1)));
+title('Single-Sided Magnitude Spectrum')
+xlabel('Frequency (Hz)')
+ylabel('|Y(f)|')
+axis([0 Fs/2 0 .5]);
+grid('minor');
+text(5000,0.45,'400081720 Lai Suet Sze','FontSize', 8);
+text(5000,0.43,'400062708 Zhimin Xu','FontSize',8);
