@@ -1,0 +1,38 @@
+
+ % Read in the signal from the audio file
+[signal, Fs] = audioread('SecretMessage2018.wav');
+L = length(signal);
+T = 1/Fs;
+t = [0:L-1]*T;
+% Plot the signal for t_plot msec
+t_plot = 1000; %b/c the message is encoded in multiple 1-sec duration
+msec_per_sec = 1000;
+numSamples = t_plot*Fs/msec_per_sec;
+% Take the DFT
+for i=1:64 %from 1st to 64th seconds
+	Y= fft(signal(1:numSamples))/L;
+	f = Fs/2*linspace(0,1,length(signal(1:numSamples))/2+1);
+	subplot(16,4,i);
+	%plot the single-sided magnitude spectrum
+	plot(f,2*abs(Y(1:length(signal(1:numSamples))/2+1)));
+	xlabel('Frequency (Hz)');
+  %  set(gca,'ytick',[]); %this line eliminate the datas on y axis in order
+  %  to have clearer vision of the subplots
+	ylabel('|Y(f)|')
+	if i<=52
+    	axis([0 Fs/2 0 0.0025]);
+	end
+	if i>52
+    	axis([0 Fs/2 0 0.01]);  	 
+	end
+	grid('minor');
+	L=length(signal);
+	signal=signal(Fs+1:L); %discard the samples that already been used
+end
+%codes for adding subtitle
+a=axes;
+t=title('400081720 Lai Suet Sze, 400062708 Zhimin Xu');
+a.Visible = 'off';
+t.Visible = 'on';
+
+
